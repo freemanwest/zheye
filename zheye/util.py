@@ -104,7 +104,7 @@ def Paint2File(contents, fn):
         background.paste(fore, (axis_x, axis_y), fore)
         
     #uncomment to save to file
-    #background.save(fn)
+    background.save(fn)
     return background
 
 from random import randint, choice
@@ -125,11 +125,17 @@ def randomGB2312():
     except:
         return randomGB2312()
 
-def RandomGenerateOneFile():
-    choices = range(-20, 20) + range(-180, -160) + range(160, 180)
+def RandomGenerateOneFile(characters=[]):
+    choices = [x for x in range(-20, 20)] + [x for x in range(-180, -160)] + [x for x in range(160, 180)]
 
     l = []
-    for i in range(7):
+    
+    if characters == []:
+        length = 7
+    else:
+        length = len(characters)
+    for i in range(length):
+        
         angle = choice(choices)
         f = 0
         if angle <= 20 and angle >= -20:
@@ -144,7 +150,11 @@ def RandomGenerateOneFile():
         
         rg = int((88 - height)/2)
         y = randint(rg-3, rg+3)
-        character = randomGB2312()
+        
+        if characters == []:
+            character = randomGB2312()
+        else:
+            character = characters[i]
         
         centerX = x + width/2
         centerY = y + height/2
