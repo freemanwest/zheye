@@ -1,11 +1,21 @@
 <html>
-   <body>
-   
-      <form action = "http://localhost:5000/rec" method = "POST" 
-         enctype = "multipart/form-data">
-         <input type = "file" name = "file" />
-         <input type = "submit"/>
-      </form>
-      
-   </body>
+<head>
+	<meta charset="UTF-8">
+</head>
+<title>知乎验证码识别</title>
+<h1>知乎验证码识别</h1>
+
+<br>
+
+<h1>第一步上传验证码</h1>
+<a href="https://www.zhihu.com/captcha.gif?r=1464247559114&type=login&lang=cn">验证码图片下载地址<a>
+
+<br><br><br><br>
+
+<body>
+	<form action = "http://zheye.shidaixin.com/rec" method = "POST" enctype = "multipart/form-data">
+	<input type = "file" name = "file" />
+	<input type = "submit"/>
+	</form>
+</body>
 </html>

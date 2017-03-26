@@ -43,7 +43,7 @@ def Recognizing(fn):
         p_x = k_means_cluster_centers[i][0]
         p_y = k_means_cluster_centers[i][1]
 
-        cr = crop(im, p_x, p_y, radius=20)
+        cr = crop(im, p_x, p_y, radius=22)
         cr = cr.resize((40, 40), Image.ANTIALIAS)
 
         #X = np.asarray(cr.convert('1'), dtype='float')
@@ -64,7 +64,10 @@ def Recognizing(fn):
         if m_y[0][0] < 0.5:
             #points.append((p_x-20, p_y-20))
             points.append((p_x, p_y))
-    return points
+
+
+    im = PaintPoint(im, points)
+    im.save(fn)
 
 
 '''
@@ -78,7 +81,7 @@ def PaintPoint(image, points=[]):
     im = image.copy()
     bgdr = ImageDraw.Draw(im)
     for y, x in points:
-        bgdr.ellipse((x-3, y-3, x+3, y+3), fill ="red", outline ='red')
+        bgdr.ellipse((x-10, y-10, x+10, y+10), fill ="blue", outline ='blue')
     return im
 
 def Paint2File(contents, fn):
@@ -87,7 +90,8 @@ def Paint2File(contents, fn):
     '''    
     background = Image.new("RGBA", (400, 88), (255,255,255,255))
     
-    font = ImageFont.truetype("./Kaiti-SC-Bold.ttf", 72)
+    global path
+    font = ImageFont.truetype(path + "/Kaiti-SC-Bold.ttf", 72)
     
     for c in contents:
         axis_x    = c[0]
@@ -104,7 +108,7 @@ def Paint2File(contents, fn):
         background.paste(fore, (axis_x, axis_y), fore)
         
     #uncomment to save to file
-    background.save(fn)
+    #background.save(fn)
     return background
 
 from random import randint, choice
@@ -119,9 +123,11 @@ def randomGB2312():
     body = randint(0xA, 0xF)
     tail = randint(0, 0xF)
     val = ( head << 0x8 ) | (body << 0x4 ) | tail
-    str = '%x' % val
+    c = '%x' % val
     try:
-        return str.decode('hex').decode('gb2312')
+        #return str.decode('hex').decode('gb2312')
+        # python3 Compatible
+        return bytes.fromhex(c).decode('gb2312')
     except:
         return randomGB2312()
 
