@@ -1,12 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 
-
-
-
 from PIL import Image, ImageFont, ImageDraw
 import numpy as np
-
 
 import os 
 full_path = os.path.realpath(__file__)
@@ -19,8 +15,8 @@ model = keras.models.load_model(path +'/zheye.keras')
 ************************************************************************
 Recognizing...
 '''
-def Recognizing(filename):
-    im = Image.open(filename)
+def Recognizing(fn):
+    im = Image.open(fn)
     im = centerExtend(im, radius=20)
     
     #get center positions
@@ -62,11 +58,13 @@ def Recognizing(filename):
 
         x0 = np.expand_dims(X, axis=0)
         x1 = np.expand_dims(x0, axis=3)
+
+        global model
         m_y = model.predict(x1)
         if m_y[0][0] < 0.5:
-            points.append((p_x-20, p_y-20))
+            #points.append((p_x-20, p_y-20))
+            points.append((p_x, p_y))
     return points
-
 
 
 '''
